@@ -22,7 +22,7 @@ const createIssuesBody = async () => {
   let sentence = await getSHiCi()
   const getUpTime = moment().utcOffset(8).format('YYYY-MM-DD HH:mm:ss')
 
-  return `今天的起床时间是--${getUpTime}. 今天天气--${args[0]}\r\n\r\n 起床啦，读读书，去玩耍，争取跑个步。\r\n\r\n 今天的一句诗:\r\n ${sentence}`
+  return `今天的起床时间是--${getUpTime}. 今天天气--${args[1]}\r\n\r\n 起床啦，读读书，去玩耍，争取跑个步。\r\n\r\n 今天的一句诗:\r\n ${sentence}`
 }
 
 const getIssues = async (gitToken) => {
@@ -36,18 +36,18 @@ const todayGetUpState = async (getIss) => {
   if (issuesInfo.statusText === 'OK') {
     const momentUpdate = moment(issuesInfo.data.updated_at)
     const momentNew = moment()
-    if (momentUpdate.isSame(momentNew, 'day')) {
-      console.log('今天已经提交过了')
-      return false
-    }
+    // if (momentUpdate.isSame(momentNew, 'day')) {
+    //   console.log('今天已经提交过了')
+    //   return false
+    // }
     return true
   }
   return false
 }
 
-const init = async (gitToken) => {
+const init = async () => {
   const issuesBody = await createIssuesBody()
-  const getIss = await getIssues(gitToken)
+  const getIss = await getIssues(args[0])
   const todayStatus = await todayGetUpState(getIss)
   if (!todayStatus) {
     return
