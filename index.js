@@ -36,10 +36,10 @@ const todayGetUpState = async (getIss) => {
   if (issuesInfo.statusText === 'OK') {
     const momentUpdate = moment(issuesInfo.data.updated_at)
     const momentNew = moment()
-    // if (momentUpdate.isSame(momentNew, 'day')) {
-    //   console.log('今天已经提交过了')
-    //   return false
-    // }
+    if (momentUpdate.isSame(momentNew, 'day')) {
+      console.log('今天已经提交过了')
+      return false
+    }
     return true
   }
   return false
