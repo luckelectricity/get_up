@@ -21,7 +21,7 @@ const getSHiCi = async () => {
 const createIssuesBody = async () => {
   let sentence = await getSHiCi()
   const getUpTime = moment().utcOffset(8).format('YYYY-MM-DD HH:mm:ss')
-  return `今天的起床时间是--${getUpTime}. 今天天气--${args[1]}\r\n\r\n 起床啦，读读书，去玩耍，争取跑个步。\r\n\r\n 今天的一句诗:\r\n ${sentence}`
+  return `今天的起床时间是--${getUpTime}.\r\n\r\n 今天天气--${args[1]}\r\n\r\n 起床啦，读读书，去玩耍，争取跑个步。\r\n\r\n 今天的一句诗:\r\n ${sentence}`
 }
 
 const getIssues = async (gitToken) => {
