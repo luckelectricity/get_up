@@ -15,14 +15,11 @@ jobs:
       matrix:
         node-version: [12.x]
     steps:
-    - uses: actions/checkout@main
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: npm install
-      run: |
-      npm install
-    - name: GET UP
-      run: |
-        node index.js ${{ secrets.G_T }} weather_message
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: npm install
+      - run: node index.js ${{ secrets.G_T }} --weather_message
