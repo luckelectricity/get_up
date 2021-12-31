@@ -7,7 +7,6 @@ const SENTENCE_API = 'https://v1.jinrishici.com/all'
 let DEFAULT_SENTENCE =
   '赏花归去马如飞\r\n去马如飞酒力微\r\n酒力微醒时已暮\r\n醒时已暮赏花归\r\n'
 
-moment.locale('zh-cn')
 // 获取命令行参数
 const args = process.argv.slice(2)
 
@@ -21,7 +20,7 @@ const getSHiCi = async () => {
 
 const createIssuesBody = async () => {
   let sentence = await getSHiCi()
-  const getUpTime = moment().format('YYYY-MM-DD HH:mm:ss')
+  const getUpTime = moment().utcOffset(8).format('YYYY-MM-DD HH:mm:ss')
   return `今天的起床时间是--${getUpTime}. 今天天气--${args[1]}\r\n\r\n 起床啦，读读书，去玩耍，争取跑个步。\r\n\r\n 今天的一句诗:\r\n ${sentence}`
 }
 
@@ -34,11 +33,13 @@ const getIssues = async (gitToken) => {
 const todayGetUpState = async (getIss) => {
   const issuesInfo = await getIss.getIssue(GET_UP_ISSUE_NUMBER)
   if (issuesInfo.statusText === 'OK') {
-    const momentUpdate = moment(issuesInfo.data.updated_at)
-      .endOf('day')
-      .valueOf()
+    const momentUpdate = +moment(
+      issuesInfo.data.updated_at,
+      moment.ISO_8601
+    ).endOf('day')
     const momentNew = moment().valueOf()
-    if (momentNew > momentUpdate) {
+    console.log(momentUpdate, momentNew, issuesInfo.data.updated_at)
+    if (momentUpdate > momentNew) {
       console.log('今天已经提交过了')
       return false
     }
