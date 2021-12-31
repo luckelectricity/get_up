@@ -38,7 +38,6 @@ const todayGetUpState = async (getIss) => {
       .endOf('day')
       .valueOf()
     const momentNew = moment().valueOf()
-    console.log({ momentUpdate, momentNew })
     if (momentNew > momentUpdate) {
       console.log('今天已经提交过了')
       return false
