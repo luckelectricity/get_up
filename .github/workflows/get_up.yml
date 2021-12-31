@@ -23,7 +23,6 @@ jobs:
     - name: npm install
       run: |
       npm install
-
     - name: GET UP
       run: |
         node index.js ${{ secrets.G_T }} weather_message
