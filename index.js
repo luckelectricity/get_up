@@ -44,7 +44,7 @@ const todayGetUpState = async (getIss) => {
       errMessage = '今天已经提交过了'
       return false
     }
-    if (nowHour >= 5 && nowHour =< 8) {
+    if (nowHour >= 5 && nowHour <= 8) {
       console.log('只有五点到九点之间能提交')
       errMessage = '只有五点到九点之间能提交'
       return false
@@ -59,13 +59,13 @@ const init = async () => {
   const getIss = await getIssues(args[0])
   const todayStatus = await todayGetUpState(getIss)
   if (!todayStatus) {
-    console.log(errMessage);
+    console.log(errMessage)
     return
   }
-  const issuesInfo = await getIss.createIssueComment(
-    GET_UP_ISSUE_NUMBER,
-    issuesBody
-  )
+  // const issuesInfo = await getIss.createIssueComment(
+  //   GET_UP_ISSUE_NUMBER,
+  //   issuesBody
+  // )
 }
 
 init()
