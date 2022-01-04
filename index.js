@@ -62,10 +62,10 @@ const init = async () => {
     console.log(errMessage)
     return errMessage
   }
-  // const issuesInfo = await getIss.createIssueComment(
-  //   GET_UP_ISSUE_NUMBER,
-  //   issuesBody
-  // )
+  const issuesInfo = await getIss.createIssueComment(
+    GET_UP_ISSUE_NUMBER,
+    issuesBody
+  )
 }
 
 init()
