@@ -6,7 +6,7 @@ const GET_UP_ISSUE_NUMBER = 1
 const SENTENCE_API = 'https://v1.jinrishici.com/all'
 let DEFAULT_SENTENCE =
   '赏花归去马如飞\r\n去马如飞酒力微\r\n酒力微醒时已暮\r\n醒时已暮赏花归\r\n'
-
+let errMessage = ''
 // 获取命令行参数
 const args = process.argv.slice(2)
 
@@ -30,17 +30,23 @@ const getIssues = async (gitToken) => {
 }
 
 // 判断是不是今天第一条，是的话创建，不是的话就拜拜
+// 在判断是不是在5--8点之前，谁能想九点也算早起了呢。。。
 const todayGetUpState = async (getIss) => {
-  const issuesInfo = await getIss.getIssue(GET_UP_ISSUE_NUMBER)
+  const issuesInfo = await getIss.listIssueComments(GET_UP_ISSUE_NUMBER)
   if (issuesInfo.statusText === 'OK') {
-    const momentUpdate = +moment(
-      issuesInfo.data.updated_at,
-      moment.ISO_8601
-    ).endOf('day')
-    const momentNew = moment().valueOf()
-    console.log(momentUpdate, momentNew, issuesInfo.data.updated_at)
-    if (momentUpdate > momentNew) {
+    const lastComment = issuesInfo.data[issuesInfo.data.length - 1]
+    const momentUpdate = moment(lastComment.updated_at).utcOffset(8)
+    const momentNew = moment().utcOffset(8)
+    const nowHour = momentNew.hour()
+    console.log(nowHour)
+    if (momentUpdate.isSame(momentNew, 'day')) {
       console.log('今天已经提交过了')
+      errMessage = '今天已经提交过了'
+      return false
+    }
+    if (nowHour >= 5 && nowHour =< 8) {
+      console.log('只有五点到九点之间能提交')
+      errMessage = '只有五点到九点之间能提交'
       return false
     }
     return true
@@ -53,6 +59,7 @@ const init = async () => {
   const getIss = await getIssues(args[0])
   const todayStatus = await todayGetUpState(getIss)
   if (!todayStatus) {
+    console.log(errMessage);
     return
   }
   const issuesInfo = await getIss.createIssueComment(
