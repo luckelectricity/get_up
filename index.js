@@ -60,7 +60,7 @@ const init = async () => {
   const todayStatus = await todayGetUpState(getIss)
   if (!todayStatus) {
     console.log(errMessage)
-    return
+    return errMessage
   }
   // const issuesInfo = await getIss.createIssueComment(
   //   GET_UP_ISSUE_NUMBER,
