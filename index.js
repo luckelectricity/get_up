@@ -44,7 +44,7 @@ const todayGetUpState = async (getIss) => {
       errMessage = '今天已经提交过了'
       return false
     }
-    if (nowHour >= 5 && nowHour <= 8) {
+    if (nowHour < 5 || nowHour > 8) {
       console.log('只有五点到九点之间能提交')
       errMessage = '只有五点到九点之间能提交'
       return false
