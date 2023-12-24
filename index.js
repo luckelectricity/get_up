@@ -63,7 +63,7 @@ const saveImages = async () => {
     }
 
     // 将图片放入 images 目录下的文件夹中
-    res.images.forEach((image, index) => {
+    res.forEach((image, index) => {
       // images 中是网络url，请求图片，将图片保存到 images 目录下的文件夹中
       const imageFileName = `${index}.jpg`
       const imageFilePath = path.join(imagesFolderPath, imageFileName)
